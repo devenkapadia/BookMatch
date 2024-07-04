@@ -11,21 +11,20 @@ const Recs = () => {
     const getRecommendations = async () => {
         try {
             setLoading(true)
-            const response = await fetch(`${process.env.REACT_APP_API_LINK}/recommend_books`, {
+            const response = await fetch(`${process.env.REACT_APP_API_LINK}/recommend_books?user_input=${userInput}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ user_input: userInput })
             });
             const data = await response.json();
-            console.log("Fetched recommendations:", data);
+            console.log("Fetched recommendations:", data.Recommendations);
             if (data.error) {
                 setLoading(false)
                 setDataFound(false)
             } else {
                 setLoading(false)
-                setBook(data);
+                setBook(data.recommendations);
             }
         } catch (error) {
             console.error("Error fetching recommendations:", error);
@@ -75,9 +74,9 @@ const Recs = () => {
                             autoComplete: 'off',
                         }}
                     />
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
+                    <Button
+                        variant="contained"
+                        color="primary"
                         sx={{
                             marginRight: 2,
                         }}
@@ -90,7 +89,7 @@ const Recs = () => {
                 </Container>
             </div>
             {!loading ? <Books books={book} /> : <Typography variant='h6' align='center' color="textPrimary">Loading...</Typography>}
-            {!datafound ? <Typography variant='h6' align='left' color="textPrimary">No recommendations found</Typography> : ""}
+            {!datafound ? <Typography variant='h6' align='left' color="textPrimary" sx={{ ml: 10 }}>No recommendations found</Typography> : ""}
 
         </>
     )

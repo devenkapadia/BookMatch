@@ -17,7 +17,7 @@ const Authors = () => {
       const response = await fetch(`${process.env.REACT_APP_API_LINK}/get_authors`);
       const data = await response.json();
       console.log("Fetched data:", data);
-      setAuthorList(data);
+      setAuthorList(data.unique_authors);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -26,23 +26,21 @@ const Authors = () => {
   const getAuthorBooks = async () => {
     try {
       setLoading(true)
-      const response = await fetch(`${process.env.REACT_APP_API_LINK}/get_top_books`, {
+      const response = await fetch(`${process.env.REACT_APP_API_LINK}/get_top_books?author=${author}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ author: author })
       });
       const data = await response.json();
-      console.log("Fetched recommendations:", data);
       if (data.error) {
         setLoading(false)
       } else {
         setLoading(false)
-        setBook(data);
+        setBook(data.top_books);
       }
     } catch (error) {
-      console.error("Error fetching recommendations:", error);
+      console.error("Error fetching books:", error);
     }
   };
   const clearData = async () => {
