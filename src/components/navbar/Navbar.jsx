@@ -83,7 +83,7 @@ const Navbar = () => {
                         </IconButton>
                     )}
                     <Typography variant="h6" sx={{ flexGrow: 1, color: '#37B7C3' }}>
-                        Book-Mania
+                        Book-Match
                     </Typography>
                     {!isMobile && (
                         <>
